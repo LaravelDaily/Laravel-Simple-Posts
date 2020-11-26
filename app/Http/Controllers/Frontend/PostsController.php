@@ -18,13 +18,25 @@ class PostsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $posts = Post::all();
+        $selectedCategories = $request->input('categories', []);
+        $posts = Post::with('categories')
+            ->where(function ($query) use ($selectedCategories) {
+                $query->when(!empty($selectedCategories), function ($query) use ($selectedCategories) {
+                    $query->whereHas('categories', function ($query) use ($selectedCategories) {
+                        $query->whereIn('id', array_keys($selectedCategories));
+                    })->orWhereDoesntHave('categories');
+                });
+            })
+            ->where('end_date', '>', now())
+            ->get();
 
-        return view('frontend.posts.index', compact('posts'));
+        $categories = Category::pluck('name', 'id');
+
+        return view('frontend.posts.index', compact('posts', 'categories', 'selectedCategories'));
     }
 
     public function create()
