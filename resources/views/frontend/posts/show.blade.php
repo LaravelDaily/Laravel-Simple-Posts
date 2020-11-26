@@ -11,95 +11,74 @@
 
                 <div class="card-body">
                     <div class="form-group">
-                        <div class="form-group">
-                            <a class="btn btn-default" href="{{ route('frontend.posts.index') }}">
-                                {{ trans('global.back_to_list') }}
-                            </a>
-                        </div>
-                        <table class="table table-bordered table-striped">
-                            <tbody>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.id') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->id }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.title') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->title }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.categories') }}
-                                    </th>
-                                    <td>
-                                        @foreach($post->categories as $key => $categories)
-                                            <span class="label label-info">{{ $categories->name }}</span>
-                                        @endforeach
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.post_text') }}
-                                    </th>
-                                    <td>
-                                        {!! $post->post_text !!}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.attachment') }}
-                                    </th>
-                                    <td>
-                                        @if($post->attachment)
-                                            <a href="{{ $post->attachment->getUrl() }}" target="_blank">
-                                                {{ trans('global.view_file') }}
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.start_date') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->start_date }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.end_date') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->end_date }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.ip_address') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->ip_address }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="form-group">
-                            <a class="btn btn-default" href="{{ route('frontend.posts.index') }}">
-                                {{ trans('global.back_to_list') }}
-                            </a>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="float-left mt-2 mr-2">
+                                    @forelse($post->categories as $category)
+                                        <span class="h4 mr-1 text-white bg-warning rounded p-1">{{ $category->name }}</span>
+                                    @empty
+                                        <span class="h4 mr-1 text-white bg-warning rounded p-1">ALL</span>
+                                    @endforelse
+                                </div>
+                                <span style="color: darkgreen;">
+                                {{ $post->title }}<br/>
+                                {{ $post->start_date }}
+                            </span>
+                                <p>
+                                    {!! $post->post_text !!}
+                                </p>
+                                @if($post->attachment)
+                                    <p>
+                                        Attachment: <br/>
+                                        <a href="{{ $post->attachment->getUrl() }}" target="_blank">
+                                            @if(Str::startsWith($post->attachment->mime_type, 'image'))
+                                                <img src="{{ $post->attachment->getUrl() }}" title="{{ $post->attachment->file_name }}" class="w-25" />
+                                            @else
+                                                {{ $post->attachment->file_name }}
+                                            @endif
+                                        </a>
+                                    </p>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <div style="margin-top: 10px;" class="row d-none d-sm-block">
+                <div class="col-lg-12">
+                    <a class="btn btn-primary" href="{{ route('frontend.posts.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+@endsection
+@section('footer')
+<footer class="footer d-block d-sm-none">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary btn-block" href="{{ route('frontend.posts.index') }}">
+                {{ trans('global.back_to_list') }}
+            </a>
+        </div>
+    </div>
+</footer>
+@endsection
+@section('styles')
+<style>
+    .badge {
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        background-color: #f5f5f5;
+    }
+</style>
 @endsection

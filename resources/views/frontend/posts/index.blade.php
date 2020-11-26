@@ -30,7 +30,7 @@
                                     @forelse($post->categories as $category)
                                         <span class="h4 mr-1 text-white bg-warning rounded p-1">{{ $category->name }}</span>
                                     @empty
-                                        <span class="h4 mr-1 text-white bg-warning rounded p-1">All</span>
+                                        <span class="h4 mr-1 text-white bg-warning rounded p-1">ALL</span>
                                     @endforelse
                                 </div>
                                 <span style="color: darkgreen;">
