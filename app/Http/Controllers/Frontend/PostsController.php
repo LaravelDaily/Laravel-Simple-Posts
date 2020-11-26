@@ -67,37 +67,6 @@ class PostsController extends Controller
         return redirect()->route('frontend.posts.index');
     }
 
-    public function edit(Post $post)
-    {
-        abort_if(Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $categories = Category::all()->pluck('name', 'id');
-
-        $post->load('categories');
-
-        return view('frontend.posts.edit', compact('categories', 'post'));
-    }
-
-    public function update(UpdatePostRequest $request, Post $post)
-    {
-        $post->update($request->all());
-        $post->categories()->sync($request->input('categories', []));
-
-        if ($request->input('attachment', false)) {
-            if (!$post->attachment || $request->input('attachment') !== $post->attachment->file_name) {
-                if ($post->attachment) {
-                    $post->attachment->delete();
-                }
-
-                $post->addMedia(storage_path('tmp/uploads/' . $request->input('attachment')))->toMediaCollection('attachment');
-            }
-        } elseif ($post->attachment) {
-            $post->attachment->delete();
-        }
-
-        return redirect()->route('frontend.posts.index');
-    }
-
     public function show(Post $post)
     {
         abort_if(Gate::denies('post_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -105,22 +74,6 @@ class PostsController extends Controller
         $post->load('categories');
 
         return view('frontend.posts.show', compact('post'));
-    }
-
-    public function destroy(Post $post)
-    {
-        abort_if(Gate::denies('post_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $post->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyPostRequest $request)
-    {
-        Post::whereIn('id', request('ids'))->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)

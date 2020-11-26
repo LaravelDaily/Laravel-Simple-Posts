@@ -45,14 +45,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @guest
-                        @else
+                        @can('post_access')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('frontend.home') }}">
-                                    {{ __('Dashboard') }}
+                                <a class="nav-link" href="{{ route('frontend.posts.index') }}">
+                                    {{ trans('cruds.post.title') }}
                                 </a>
                             </li>
-                        @endguest
+                        @endcan
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -74,40 +73,6 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-
-                                    <a class="dropdown-item" href="{{ route('frontend.profile.index') }}">{{ __('My profile') }}</a>
-
-                                    @can('user_management_access')
-                                        <a class="dropdown-item disabled" href="#">
-                                            {{ trans('cruds.userManagement.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('permission_access')
-                                        <a class="dropdown-item ml-3" href="{{ route('frontend.permissions.index') }}">
-                                            {{ trans('cruds.permission.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('role_access')
-                                        <a class="dropdown-item ml-3" href="{{ route('frontend.roles.index') }}">
-                                            {{ trans('cruds.role.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('user_access')
-                                        <a class="dropdown-item ml-3" href="{{ route('frontend.users.index') }}">
-                                            {{ trans('cruds.user.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('category_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.categories.index') }}">
-                                            {{ trans('cruds.category.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('post_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.posts.index') }}">
-                                            {{ trans('cruds.post.title') }}
-                                        </a>
-                                    @endcan
-
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
