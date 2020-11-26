@@ -50,8 +50,11 @@ class PostsController extends Controller
 
     public function store(StorePostRequest $request)
     {
-        $post = Post::create($request->all());
-        $post->categories()->sync($request->input('categories', []));
+        $post = Post::create(['ip_address' => $request->ip()] + $request->all());
+
+        if (!in_array(0, $request->input('categories', []))) {
+            $post->categories()->sync($request->input('categories', []));
+        }
 
         if ($request->input('attachment', false)) {
             $post->addMedia(storage_path('tmp/uploads/' . $request->input('attachment')))->toMediaCollection('attachment');

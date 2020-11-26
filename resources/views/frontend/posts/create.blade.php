@@ -30,6 +30,7 @@
                                 <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                             </div>
                             <select class="form-control select2" name="categories[]" id="categories" multiple>
+                                <option value="0">ALL</option>
                                 @foreach($categories as $id => $categories)
                                     <option value="{{ $id }}" {{ in_array($id, old('categories', [])) ? 'selected' : '' }}>{{ $categories }}</option>
                                 @endforeach
@@ -81,16 +82,6 @@
                                 </div>
                             @endif
                             <span class="help-block">{{ trans('cruds.post.fields.end_date_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="ip_address">{{ trans('cruds.post.fields.ip_address') }}</label>
-                            <input class="form-control" type="text" name="ip_address" id="ip_address" value="{{ old('ip_address', '') }}">
-                            @if($errors->has('ip_address'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('ip_address') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.post.fields.ip_address_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">
