@@ -68,7 +68,11 @@
                                     {{ trans('global.forgot_password') }}
                                 </a><br>
                             @endif
-
+                            @if(Route::has('register'))
+                                <a class="btn btn-link px-0" href="{{ route('register') }}">
+                                    {{ trans('global.register') }}
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </form>
