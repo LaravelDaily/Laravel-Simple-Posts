@@ -20,8 +20,6 @@ class PostsController extends Controller
 
     public function index(Request $request)
     {
-        abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $selectedCategories = $request->input('categories', []);
         $posts = Post::with('categories')
             ->where(function ($query) use ($selectedCategories) {
@@ -69,8 +67,6 @@ class PostsController extends Controller
 
     public function show(Post $post)
     {
-        abort_if(Gate::denies('post_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $post->load('categories');
 
         return view('frontend.posts.show', compact('post'));
@@ -78,7 +74,7 @@ class PostsController extends Controller
 
     public function storeCKEditorImages(Request $request)
     {
-        abort_if(Gate::denies('post_create') && Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('post_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $model         = new Post();
         $model->id     = $request->input('crud_id', 0);

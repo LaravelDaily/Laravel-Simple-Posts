@@ -11,9 +11,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('posts/ckmedia', 'PostsController@storeCKEditorImages')->name('posts.storeCKEditorImages');
     Route::resource('posts', 'PostsController');
 });
-Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
+    Route::group(['middleware' => ['auth']], function() {
+        Route::get('/home', 'HomeController@index')->name('home');
 
-    // Posts
-    Route::resource('posts', 'PostsController')->only(['index', 'create', 'store', 'show']);
+        // Posts
+        Route::resource('posts', 'PostsController')->only(['create', 'store']);
+    });
+    Route::resource('posts', 'PostsController')->only(['index', 'show']);
 });

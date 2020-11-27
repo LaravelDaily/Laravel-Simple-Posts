@@ -60,7 +60,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="start_date">{{ trans('cruds.post.fields.start_date') }}</label>
-                <input class="form-control datetime {{ $errors->has('start_date') ? 'is-invalid' : '' }}" type="text" name="start_date" id="start_date" value="{{ old('start_date') }}" required>
+                <input class="form-control date {{ $errors->has('start_date') ? 'is-invalid' : '' }}" type="text" name="start_date" id="start_date" value="{{ old('start_date') }}" required>
                 @if($errors->has('start_date'))
                     <div class="invalid-feedback">
                         {{ $errors->first('start_date') }}
@@ -70,7 +70,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="end_date">{{ trans('cruds.post.fields.end_date') }}</label>
-                <input class="form-control datetime {{ $errors->has('end_date') ? 'is-invalid' : '' }}" type="text" name="end_date" id="end_date" value="{{ old('end_date') }}" required>
+                <input class="form-control date {{ $errors->has('end_date') ? 'is-invalid' : '' }}" type="text" name="end_date" id="end_date" value="{{ old('end_date') }}" required>
                 @if($errors->has('end_date'))
                     <div class="invalid-feedback">
                         {{ $errors->first('end_date') }}

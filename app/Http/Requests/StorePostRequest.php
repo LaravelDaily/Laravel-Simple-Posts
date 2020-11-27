@@ -29,11 +29,11 @@ class StorePostRequest extends FormRequest
             ],
             'start_date'   => [
                 'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+                'date_format:' . config('panel.date_format'),
             ],
             'end_date'     => [
                 'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+                'date_format:' . config('panel.date_format'),
             ],
             'ip_address'   => [
                 'string',
