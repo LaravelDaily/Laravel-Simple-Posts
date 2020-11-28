@@ -29,7 +29,9 @@ class PostsController extends Controller
                     })->orWhereDoesntHave('categories');
                 });
             })
+            ->where('start_date', '<', now())
             ->where('end_date', '>', now())
+            ->orderByDesc('start_date')
             ->get();
 
         $categories = Category::pluck('name', 'id');
