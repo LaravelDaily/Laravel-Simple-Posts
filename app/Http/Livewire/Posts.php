@@ -10,32 +10,16 @@ class Posts extends Component
 {
     public $selectedCategories = [];
 
-    public $posts;
-
     public $categories;
-
-    protected $queryString = [
-        'selectedCategories'
-    ];
 
     public function mount()
     {
         $this->categories = Category::pluck('name', 'id');
-        $this->refreshPosts();
     }
 
     public function render()
     {
-        return view('livewire.posts', [
-            'selectedCategories' => $this->selectedCategories,
-            'categories' => $this->categories,
-            'posts' => $this->posts
-        ]);
-    }
-
-    public function refreshPosts()
-    {
-        $this->posts = Post::with('categories')
+        $posts = Post::with('categories')
             ->where(function ($query) {
                 $query->when(!empty($this->selectedCategories), function ($query) {
                     $query->whereHas('categories', function ($query) {
@@ -47,6 +31,12 @@ class Posts extends Component
             ->where('end_date', '>', now())
             ->orderByDesc('start_date')
             ->get();
+
+        return view('livewire.posts', [
+            'selectedCategories' => $this->selectedCategories,
+            'categories' => $this->categories,
+            'posts' => $posts
+        ]);
     }
 
     public function filterCategories($id)
@@ -56,7 +46,5 @@ class Posts extends Component
         } else {
             $this->selectedCategories[] = $id;
         }
-
-        $this->refreshPosts();
     }
 }
