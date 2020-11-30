@@ -22,8 +22,6 @@ class Post extends Model implements HasMedia
     ];
 
     protected $dates = [
-        'start_date',
-        'end_date',
         'created_at',
         'updated_at',
         'deleted_at',

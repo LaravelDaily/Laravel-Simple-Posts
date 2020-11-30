@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyPostRequest;
 use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use Gate;
@@ -18,25 +16,9 @@ class PostsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index(Request $request)
+    public function index()
     {
-        $selectedCategories = $request->input('categories', []);
-        $posts = Post::with('categories')
-            ->where(function ($query) use ($selectedCategories) {
-                $query->when(!empty($selectedCategories), function ($query) use ($selectedCategories) {
-                    $query->whereHas('categories', function ($query) use ($selectedCategories) {
-                        $query->whereIn('id', array_keys($selectedCategories));
-                    })->orWhereDoesntHave('categories');
-                });
-            })
-            ->where('start_date', '<', now())
-            ->where('end_date', '>', now())
-            ->orderByDesc('start_date')
-            ->get();
-
-        $categories = Category::pluck('name', 'id');
-
-        return view('frontend.posts.index', compact('posts', 'categories', 'selectedCategories'));
+        return view('frontend.posts.index');
     }
 
     public function create()
