@@ -56,5 +56,7 @@ class Posts extends Component
         } else {
             $this->selectedCategories[] = $id;
         }
+
+        $this->refreshPosts();
     }
 }
