@@ -9,12 +9,12 @@ class CategoriesTableSeeder extends Seeder
 {
     public function run()
     {
-        $categories = collect([
+        $categories = [
             'Y7', 'Y8', 'Y9', 'Y10', 'Y11', 'Y12', 'Staff'
-        ])->map(function ($value) {
-            return ['name' => $value];
-        })->toArray();
+        ];
 
-        Category::insert($categories);
+        foreach ($categories as $category) {
+            Category::create(['name' => $category]);
+        }
     }
 }
